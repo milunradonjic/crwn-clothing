@@ -57,6 +57,7 @@ export const convertCollectionsSnapshotToMap = collections => {
     const { title, items } = doc.data();
 
     return {
+      // encodeURI transfers all unreadable characters for the url to readable for url
       routeName: encodeURI(title.toLowerCase()),
       id: doc.id,
       title,
@@ -64,6 +65,7 @@ export const convertCollectionsSnapshotToMap = collections => {
     }
   })
 
+  // array to map
   return transformedCollection.reduce((accumulator, collection) => {
     accumulator[collection.title.toLowerCase()] = collection
     return accumulator;

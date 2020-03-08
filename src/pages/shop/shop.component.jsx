@@ -15,10 +15,15 @@ class ShopPage extends React.Component {
 
   componentDidMount() {
     const { updateCollections } = this.props;
+    // get collections ref from firestore with id (key) 'collections'
     const collections = firestore.collection('collections');
 
+    // subscribe to listener
+    // when the snapshot changes it will fire
     collections.onSnapshot(async snapshot => {
+      // transform snapshot to map
       const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+      // put it in a reducer
       updateCollections(collectionsMap);
     })
   }
