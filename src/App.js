@@ -12,37 +12,40 @@ import CheckoutPage from './pages/checkout/checkout.component';
 
 import Header from './components/header/header.component';
 
-import { auth, createUserProfileDocument } from './firebase/firebase.utils';
+// BEFORE SAGAS 
+// import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
 import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
 
 class App extends React.Component {
 
-  unsubsribeFromAuth = null;
+  // unsubsribeFromAuth = null;
 
-  componentDidMount() {
-    const { setCurrentUser } = this.props;
+  // BEFORE SAGAS. SWITCHED TO SAGAS
+  // componentDidMount() {
+  //   const { setCurrentUser } = this.props;
 
-    this.unsubsribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-      if (userAuth) {
-        const userRef = await createUserProfileDocument(userAuth);
+  // WONT BE USING THIS. WE ARE SWITCHING TO SAGAS
+  // this.unsubsribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+  //   if (userAuth) {
+  //     const userRef = await createUserProfileDocument(userAuth);
 
-        userRef.onSnapshot(snapShot => {
-          setCurrentUser({
-            id: snapShot.id,
-            ...snapShot.data()
-          })
-        });
-      }
+  //     userRef.onSnapshot(snapShot => {
+  //       setCurrentUser({
+  //         id: snapShot.id,
+  //         ...snapShot.data()
+  //       })
+  //     });
+  //   }
 
-      setCurrentUser(userAuth);
-    });
-  }
+  //   setCurrentUser(userAuth);
+  // });
+  // }
 
-  componentWillUnmount() {
-    this.unsubsribeFromAuth();
-  }
+  // componentWillUnmount() {
+  //   this.unsubsribeFromAuth();
+  // }
 
   render() {
     return (

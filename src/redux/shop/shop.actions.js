@@ -1,6 +1,7 @@
 import ShopActionTypes from './shop.types';
 
-import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
+// Left from thunk
+// import { firestore, convertCollectionsSnapshotToMap } from '../../firebase/firebase.utils';
 
 
 export const fetchCollectionsStart = () => ({
@@ -17,19 +18,20 @@ export const fetchCollectionsFailure = errorMessage => ({
   payload: errorMessage
 });
 
-export const fetchCollectionsStartAsync = () => {
-  return dispatch => {
-    // get collections ref from firestore with id (key) 'collections'
-    const collectionsRef = firestore.collection('collections');
-    dispatch(fetchCollectionsStart());
+// Left from thunk
+// export const fetchCollectionsStartAsync = () => {
+//   return dispatch => {
+//     // get collections ref from firestore with id (key) 'collections'
+//     const collectionsRef = firestore.collection('collections');
+//     dispatch(fetchCollectionsStart());
 
-    // subscribe to listener
-    // when the snapshot changes it will fire
-    collectionsRef.onSnapshot(async snapshot => {
-      // transform snapshot to map
-      const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
-      // put it in a reducer
-      dispatch(fetchCollectionsSuccess(collectionsMap));
-    }, error => dispatch(fetchCollectionsFailure(error.message)));
-  }
-};
+//     // subscribe to listener
+//     // when the snapshot changes it will fire
+//     collectionsRef.onSnapshot(async snapshot => {
+//       // transform snapshot to map
+//       const collectionsMap = convertCollectionsSnapshotToMap(snapshot);
+//       // put it in a reducer
+//       dispatch(fetchCollectionsSuccess(collectionsMap));
+//     }, error => dispatch(fetchCollectionsFailure(error.message)));
+//   }
+// };

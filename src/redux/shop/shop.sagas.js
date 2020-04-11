@@ -30,5 +30,6 @@ export function* fetchCollectionsAsync() {
 }
 
 export function* fetchCollectionsStart() {
+  console.log('test coll')
   yield takeLatest(ShopActionTypes.FETCH_COLLECTIONS_START, fetchCollectionsAsync);
 }
