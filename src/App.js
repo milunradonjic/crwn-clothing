@@ -15,29 +15,32 @@ import Header from './components/header/header.component';
 // BEFORE SAGAS 
 // import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 
-import { setCurrentUser } from './redux/user/user.actions';
+// import { setCurrentUser } from './redux/user/user.actions';
 import { selectCurrentUser } from './redux/user/user.selectors';
+import { checkUserSession } from './redux/user/user.actions';
 
 class App extends React.Component {
 
   // unsubsribeFromAuth = null;
 
-  // BEFORE SAGAS. SWITCHED TO SAGAS
-  // componentDidMount() {
-  //   const { setCurrentUser } = this.props;
+  componentDidMount() {
+    const { checkUserSession } = this.props;
+    checkUserSession();
+    // BEFORE SAGAS. SWITCHED TO SAGAS
+    //   const { setCurrentUser } = this.props;
 
-  // WONT BE USING THIS. WE ARE SWITCHING TO SAGAS
-  // this.unsubsribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-  //   if (userAuth) {
-  //     const userRef = await createUserProfileDocument(userAuth);
+    // WONT BE USING THIS. WE ARE SWITCHING TO SAGAS
+    // this.unsubsribeFromAuth = auth.onAuthStateChanged(async userAuth => {
+    //   if (userAuth) {
+    //     const userRef = await createUserProfileDocument(userAuth);
 
-  //     userRef.onSnapshot(snapShot => {
-  //       setCurrentUser({
-  //         id: snapShot.id,
-  //         ...snapShot.data()
-  //       })
-  //     });
-  //   }
+    //     userRef.onSnapshot(snapShot => {
+    //       setCurrentUser({
+    //         id: snapShot.id,
+    //         ...snapShot.data()
+    //       })
+    //     });
+  }
 
   //   setCurrentUser(userAuth);
   // });
@@ -67,7 +70,8 @@ const mapStateToProps = createStructuredSelector({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
+  // setCurrentUser: user => dispatch(setCurrentUser(user))
+  checkUserSession: () => dispatch(checkUserSession())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
