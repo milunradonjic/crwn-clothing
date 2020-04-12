@@ -1,10 +1,13 @@
 import React from 'react';
 
+import { connect } from 'react-redux';
+
 import './sign-up.styles.scss';
 
 import FormInput from '../form-input/form-input.component';
 import CustomButton from '../custom-button/custom-button.component';
-import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+// import { auth, createUserProfileDocument } from '../../firebase/firebase.utils';
+import { signUpStart } from '../../redux/user/user.actions';
 
 
 class SignUp extends React.Component {
@@ -23,27 +26,33 @@ class SignUp extends React.Component {
     event.preventDefault();
 
     const { displayName, email, password, confirmPassword } = this.state;
-
     if (password !== confirmPassword) {
       alert("Passwords don't match");
       return;
     }
+    const { signUpStart } = this.props;
+    signUpStart({ displayName, email, password });
 
-    try {
-      const { user } = await auth.createUserWithEmailAndPassword(email, password);
+    // if (password !== confirmPassword) {
+    //   alert("Passwords don't match");
+    //   return;
+    // }
 
-      await createUserProfileDocument(user, { displayName })
+    // try {
+    //   const { user } = await auth.createUserWithEmailAndPassword(email, password);
 
-      this.setState({
-        displayName: '',
-        email: '',
-        password: '',
-        confirmPassword: ''
-      });
-    } catch (error) {
-      console.error(error)
-    }
-  };
+    //   await createUserProfileDocument(user, { displayName })
+
+    //   this.setState({
+    //     displayName: '',
+    //     email: '',
+    //     password: '',
+    //     confirmPassword: ''
+    //   });
+    // } catch (error) {
+    //   console.error(error)
+    // }
+  }
 
   handleChange = event => {
     const { name, value } = event.target;
@@ -97,5 +106,8 @@ class SignUp extends React.Component {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  signUpStart: userCredentials => dispatch(signUpStart(userCredentials))
+})
 
-export default SignUp;
+export default connect(null, mapDispatchToProps)(SignUp);
