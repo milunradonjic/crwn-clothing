@@ -34,14 +34,6 @@ export function* getSnapshotFromUserAuth(userAuth) {
   }
 }
 
-export function* onGoogleSignInStart() {
-  yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
-}
-
-export function* onEmailSignInStart() {
-  yield takeLatest(UserActionTypes.EMAIL_SIGN_IN_START, signInWithEmail);
-}
-
 export function* isUserAuthenticated() {
   try {
     const userAuth = yield getCurrentUser();
@@ -52,10 +44,6 @@ export function* isUserAuthenticated() {
   }
 }
 
-export function* onCheckUserSession() {
-  yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
-}
-
 export function* signOut() {
   try {
     yield auth.signOut();
@@ -63,6 +51,18 @@ export function* signOut() {
   } catch (error) {
     yield put(signOutFailure(error));
   }
+}
+
+export function* onGoogleSignInStart() {
+  yield takeLatest(UserActionTypes.GOOGLE_SIGN_IN_START, signInWithGoogle);
+}
+
+export function* onEmailSignInStart() {
+  yield takeLatest(UserActionTypes.EMAIL_SIGN_IN_START, signInWithEmail);
+}
+
+export function* onCheckUserSession() {
+  yield takeLatest(UserActionTypes.CHECK_USER_SESSION, isUserAuthenticated);
 }
 
 export function* onSignOutStart() {
