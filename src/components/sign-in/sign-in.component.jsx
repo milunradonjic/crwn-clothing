@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
 import './sign-in.styles.scss';
@@ -13,20 +13,19 @@ import { googleSignInStart, emailSignInStart } from '../../redux/user/user.actio
 // import { auth } from '../../firebase/firebase.utils';
 
 
-class SignIn extends React.Component {
-  constructor(props) {
-    super(props);
+// TRANSFER TO USE HOOKS
 
-    this.state = {
-      email: '',
-      password: ''
-    }
-  }
+const SignIn = ({ emailSignInStart, googleSignInStart }) => {
 
-  handleSubmit = async e => {
+  const [userCredentials, setUserCredentials] = useState({
+    email: '',
+    password: ''
+  });
+
+  const { email, password } = userCredentials;
+
+  const handleSubmit = async e => {
     e.preventDefault();
-    const { emailSignInStart } = this.props;
-    const { email, password } = this.state;
     emailSignInStart(email, password);
     // SAGAS will take care of state
     // try {
@@ -38,47 +37,44 @@ class SignIn extends React.Component {
 
   }
 
-  handleChange = e => {
+  const handleChange = e => {
     const { name, value } = e.target;
-    this.setState({ [name]: value });
+    setUserCredentials({ ...userCredentials, [name]: value });
   }
 
-  render() {
-    const { googleSignInStart } = this.props;
-    return (
-      <div className='sign-in'>
-        <h2 className='title'>I already have an account</h2>
-        <span>Sign in with your email and password</span>
+  return (
+    <div className='sign-in'>
+      <h2 className='title'>I already have an account</h2>
+      <span>Sign in with your email and password</span>
 
-        <form className='sign-in-form' onSubmit={this.handleSubmit}>
-          <FormInput
-            name='email'
-            type='email'
-            value={this.state.email}
-            handleChange={this.handleChange}
-            label='email'
-            required
-          />
-          <FormInput
-            name='password'
-            type='password'
-            value={this.state.password}
-            handleChange={this.handleChange}
-            label='password'
-            required
-          />
+      <form className='sign-in-form' onSubmit={handleSubmit}>
+        <FormInput
+          name='email'
+          type='email'
+          value={email}
+          handleChange={handleChange}
+          label='email'
+          required
+        />
+        <FormInput
+          name='password'
+          type='password'
+          value={password}
+          handleChange={handleChange}
+          label='password'
+          required
+        />
 
-          <div className="buttons">
-            <CustomButton type='submit'>Sign In</CustomButton>
-            {/* <CustomButton onClick={signInWithGoogle} isGoogleSignIn>Sign In With Google</CustomButton> */}
-            {/* We have to set type as button, because it's part of a form it will trigger submit. 
-                So we have to say it's a button */}
-            <CustomButton type='button' onClick={googleSignInStart} isGoogleSignIn>Sign In With Google</CustomButton>
-          </div>
-        </form>
-      </div>
-    );
-  }
+        <div className="buttons">
+          <CustomButton type='submit'>Sign In</CustomButton>
+          {/* <CustomButton onClick={signInWithGoogle} isGoogleSignIn>Sign In With Google</CustomButton> */}
+          {/* We have to set type as button, because it's part of a form it will trigger submit. 
+              So we have to say it's a button */}
+          <CustomButton type='button' onClick={googleSignInStart} isGoogleSignIn>Sign In With Google</CustomButton>
+        </div>
+      </form>
+    </div>
+  );
 }
 
 const mapDispatchToProps = dispatch => ({
